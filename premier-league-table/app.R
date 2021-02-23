@@ -7,11 +7,10 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
 library(tidyverse)
 
-source("../scripts/prem_league_tables.R")
-source("../scripts/prem_league_lineplot.R")
+source("scripts/prem_league_tables.R")
+source("scripts/prem_league_lineplot.R")
 
 
 # Define UI for application that draws a histogram

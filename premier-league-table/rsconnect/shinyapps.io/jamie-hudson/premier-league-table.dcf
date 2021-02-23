@@ -1,0 +1,12 @@
+name: premier-league-table
+title: premier-league-table
+username:
+account: jamie-hudson
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3687136
+bundleId: 4263531
+url: https://jamie-hudson.shinyapps.io/premier-league-table/
+when: 1614116606.69914
+asMultiple: FALSE
+asStatic: FALSE

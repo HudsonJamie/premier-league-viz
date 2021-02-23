@@ -121,9 +121,6 @@ weekly_df <- table_df %>%
 tidy_weekly_df <- weekly_df %>% pivot_longer(c(- "Team"), names_to = "date", values_to = "position")
 tidy_weekly_df$date <-  as.Date.character(tidy_weekly_df$date)
 
-tidy_weekly_df <- tidy_weekly_df %>% 
-  filter(Team == c("Arsenal", "Man United"))
-
 ggplot(tidy_weekly_df, aes(x = date, y = position, group = Team)) + 
   geom_line(aes(colour = Team), size = 0.5) + 
   geom_point(aes(colour = Team), size = 2) +
