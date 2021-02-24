@@ -27,3 +27,4 @@ calculate.draw <- function(ourScore, theirScore){
 calculate.points <- function(ourScore, theirScore){
   return(ifelse(ourScore < theirScore, 0, ifelse(ourScore == theirScore, 1, 3)))
 }
+

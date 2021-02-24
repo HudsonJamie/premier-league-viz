@@ -115,8 +115,18 @@ table_df <- table_df %>% add_column(Team = total_table$Team, .before = 1)
 head(table_df)
 
 col_index <- seq(1:ncol(table_df)) 
+
+table_df_long <- table_df %>% pivot_longer(c(- "Team"), names_to = "date", values_to = "position")
+table_df_long$date <- as.Date(table_df_long$date)
+dayz <- lubridate::wday(table_df_long$date, label = TRUE)
+dayz <- lubridate::wday(as.Date(colnames(table_df)[-1]), label = TRUE)
+
+as.Date(colnames(table_df)[-1])
+
 weekly_df <- table_df %>%
-  select(col_index[(col_index - 1) %% 7 == 0])
+  select("Team", col_index[dayz == "Sun"] + 1) # Plus 1 because our first column is Team
+
+
 
 tidy_weekly_df <- weekly_df %>% pivot_longer(c(- "Team"), names_to = "date", values_to = "position")
 tidy_weekly_df$date <-  as.Date.character(tidy_weekly_df$date)
@@ -126,7 +136,7 @@ ggplot(tidy_weekly_df, aes(x = date, y = position, group = Team)) +
   geom_point(aes(colour = Team), size = 2) +
   scale_y_continuous(trans = "reverse", breaks = seq(1,20,1), labels = seq(1,20,1), limits = c(20, 1)) +
   theme_minimal() +
-  scale_x_date(date_breaks = "1 week", date_labels = "%d-%m-%y") +
+  scale_x_date(breaks = seq(min(tidy_weekly_df$date),max(tidy_weekly_df$date), by="1 week"), date_labels = "%d-%m-%y") +
   theme(panel.grid.minor = element_blank(),
         axis.ticks.y = element_blank(),
         axis.title = element_text(size = 14),
@@ -134,7 +144,7 @@ ggplot(tidy_weekly_df, aes(x = date, y = position, group = Team)) +
         axis.text.x = element_text(angle = 50),
         legend.title = element_text(size=14),
         legend.text = element_text(size=13)) +
-  labs(title = paste0("Premier League Positions"), x = 'Week', y = 'Position', subtitle = paste0('Week ',max(tidy_weekly_df$date))) +
+  labs(title = paste0("Premier League Positions"), x = 'Week', y = 'Position', subtitle = paste0("Position taken on Sundays (sorry Monday Night Football \'game in hands\')")) +
   scale_colour_manual(values = c('#EF0107','#670E36','#0057B8','#6C1D45','#034694','#1B458F','#003399','#000000','#FFCD00','#003090','#C8102E','#6CABDD','#DA291C','#241F20', "#EE2737", "#D71920", "#132257", "#122F67", "#7A263A", "#FDB913"))
 ## https://teamcolorcodes.com/soccer/premier-league-color-codes/
 
