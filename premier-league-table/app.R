@@ -11,7 +11,7 @@ library(tidyverse)
 
 source("scripts/prem_league_tables.R")
 source("scripts/prem_league_lineplot.R")
-
+source("scripts/prem_league_points.R")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -36,6 +36,12 @@ ui <- fluidPage(
         checkboxGroupInput(inputId = "team",
                            label = h3("Choose a Team"),
                            choices = unique(tidy_weekly_df$Team),
+                           selected = "Man United")),
+      conditionalPanel(
+        condition = "input.tabselected == 4",
+        checkboxGroupInput(inputId = "team_1",
+                           label = h3("Choose a Team"),
+                           choices = unique(tidy_weekly_df$Team),
                            selected = "Man United"))
     ),
     
@@ -44,7 +50,8 @@ ui <- fluidPage(
         id = "tabselected",
         tabPanel("Table at set date", value = 1, DT::dataTableOutput('table')),
         tabPanel("Table between dates", value = 2, DT::dataTableOutput('table_1')),
-        tabPanel("League position plot", value = 3, plotOutput("line")))
+        tabPanel("League position plot", value = 3, plotOutput("line")),
+        tabPanel("Total points plot", value = 4, plotOutput("line_1")))
       )
     )
   )
@@ -278,6 +285,32 @@ server <- function(input, output) {
         geom_point(aes(colour = Team), size = 2) +
         scale_y_continuous(trans = "reverse", breaks = seq(1,20,1), labels = seq(1,20,1), limits = c(20, 1)) +
         theme_minimal() +
+        scale_x_date(breaks = seq(min(tidy_weekly_df$date),max(tidy_weekly_df$date), by="1 week"), date_labels = "%d-%m-%y") +
+        theme(panel.grid.minor = element_blank(),
+              axis.ticks.y = element_blank(),
+              axis.title = element_text(size = 14),
+              axis.text.y = element_text(size = 14),
+              axis.text.x = element_text(angle = 50),
+              legend.title = element_text(size=14),
+              legend.text = element_text(size=13)) +
+        labs(title = paste0("Premier League Positions"), x = 'Week', y = 'Position', subtitle = paste0("Position taken on Sundays (sorry Monday Night Football \'game in hands\')")) +
+        scale_colour_manual(values = colpal$colours)
+    }, height = 700)
+    
+    output$line_1 <- renderPlot({
+      
+      colpal <- team_col_pal %>% 
+        filter(teams %in% input$team_1)
+      
+      tidy_weekly_filtered_points <- tidy_weekly_df_points %>% 
+        filter(Team %in% input$team_1)
+      
+      ggplot(tidy_weekly_filtered_points, 
+             aes(x = date, y = points, group = Team)) + 
+        geom_line(aes(colour = Team), size = 0.5) + 
+        geom_point(aes(colour = Team), size = 2) +
+        scale_y_continuous(breaks = seq(0,(max(tidy_weekly_df_points$points) + 5),5), labels = seq(0,(max(tidy_weekly_df_points$points) + 5),5), limits = c(0, max(tidy_weekly_df_points$points) + 5)) +
+        theme_minimal() +
         scale_x_date(date_breaks = "1 week", date_labels = "%d-%m-%y") +
         theme(panel.grid.minor = element_blank(),
               axis.ticks.y = element_blank(),
@@ -286,7 +319,7 @@ server <- function(input, output) {
               axis.text.x = element_text(angle = 50),
               legend.title = element_text(size=14),
               legend.text = element_text(size=13)) +
-        labs(title = paste0("Premier League Positions"), x = 'Week', y = 'Position', subtitle = paste0('Week ',max(tidy_weekly_df$date))) +
+        labs(title = paste0("Premier League Points"), x = 'Week', y = 'Points', subtitle = paste0('Week ',max(tidy_weekly_df$date))) +
         scale_colour_manual(values = colpal$colours)
     }, height = 700)
 }
