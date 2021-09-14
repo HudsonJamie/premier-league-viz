@@ -319,7 +319,7 @@ server <- function(input, output) {
               axis.text.x = element_text(angle = 50),
               legend.title = element_text(size=14),
               legend.text = element_text(size=13)) +
-        labs(title = paste0("Premier League Points"), x = 'Week', y = 'Points', subtitle = paste0('Week ',max(tidy_weekly_df$date))) +
+        labs(title = paste0("Premier League Points"), x = 'Week', y = 'Points', subtitle = "Points on Sundays") +
         scale_colour_manual(values = colpal$colours)
     }, height = 700)
 }

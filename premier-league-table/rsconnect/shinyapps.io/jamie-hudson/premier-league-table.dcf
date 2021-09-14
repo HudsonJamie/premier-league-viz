@@ -5,8 +5,9 @@ account: jamie-hudson
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3687136
-bundleId: 4305856
+bundleId: 5031544
 url: https://jamie-hudson.shinyapps.io/premier-league-table/
-when: 1614966252.00109
+when: 1631616445.9987
+lastSyncTime: 1631616445.99871
 asMultiple: FALSE
 asStatic: FALSE
