@@ -13,7 +13,7 @@ source("scripts/prem_league_tables.R")
 source("scripts/prem_league_lineplot.R")
 source("scripts/prem_league_points.R")
 
-# Define UI for application that draws a histogram
+# Define UI for application
 ui <- fluidPage(
   titlePanel(h1("Premier League Table")),
   
