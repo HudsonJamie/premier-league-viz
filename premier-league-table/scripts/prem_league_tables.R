@@ -1,9 +1,9 @@
 library(tidyverse)
 
-data.url <- "https://www.football-data.co.uk/mmz4281/2021/E0.csv"
+# data.url <- "https://www.football-data.co.uk/mmz4281/2021/E0.csv"
 data.file <- "data/matchData.csv"
-data.date <- Sys.Date()
-download.file(data.url, destfile = data.file, quiet = TRUE)
+# data.date <- Sys.Date()
+# download.file(data.url, destfile = data.file, quiet = TRUE)
 
 data.matches <- read.csv(data.file, header = TRUE)
 names(data.matches)

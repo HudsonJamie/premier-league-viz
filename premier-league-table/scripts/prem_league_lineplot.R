@@ -39,7 +39,7 @@ empty_table <- empty_table %>% mutate_if(is.logical,as.numeric) %>%
   arrange(desc(Pts), desc(GoalDiff), desc(GoalsFor), Team)
 rownames(empty_table) <- NULL
 
-date_seq <- seq(min(data.edit$Date), Sys.Date(), "days")
+date_seq <- seq(min(data.edit$Date), max(data.edit$Date), "days")
 table <- matrix(ncol = length(date_seq), nrow = length(unique(data.edit$HomeTeam)))
 
 for (i in 1:length(date_seq)){
