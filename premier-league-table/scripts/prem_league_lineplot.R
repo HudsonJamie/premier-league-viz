@@ -1,8 +1,11 @@
 library(tidyverse)
+library(showtext)
+font_add_google("Source Sans Pro")
+showtext_auto(enable = TRUE)
 
 
 
-data.matches <- read.csv(data.file, header = TRUE)
+# data.matches <- read.csv(data.file, header = TRUE)
 names(data.matches)
 
 data.edit <- data.matches %>% select(HomeTeam, AwayTeam, FTHG, FTAG, Date)
@@ -133,7 +136,7 @@ tidy_weekly_df$date <-  as.Date.character(tidy_weekly_df$date)
 
 ggplot(tidy_weekly_df, aes(x = date, y = position, group = Team)) + 
   geom_line(aes(colour = Team), size = 0.5) + 
-  geom_point(aes(colour = Team), size = 2) +
+  geom_point(aes(colour = Team), size = 5) +
   scale_y_continuous(trans = "reverse", breaks = seq(1,20,1), labels = seq(1,20,1), limits = c(20, 1)) +
   theme_minimal() +
   scale_x_date(breaks = seq(min(tidy_weekly_df$date),max(tidy_weekly_df$date), by="1 week"), date_labels = "%d-%m-%y") +
@@ -148,3 +151,32 @@ ggplot(tidy_weekly_df, aes(x = date, y = position, group = Team)) +
   scale_colour_manual(values = c('#EF0107','#670E36','#0057B8','#6C1D45','#034694','#1B458F','#003399','#000000','#FFCD00','#003090','#C8102E','#6CABDD','#DA291C','#241F20', "#EE2737", "#D71920", "#132257", "#122F67", "#7A263A", "#FDB913"))
 ## https://teamcolorcodes.com/soccer/premier-league-color-codes/
 
+ggplot(tidy_weekly_df, aes(x = date, y = position, group = Team)) +
+  geom_bump(aes(colour = Team), smooth = 10) +
+  scale_colour_manual(values = c('#EF0107','#670E36', '#e30613', '#0057B8','#6C1D45','#034694','#1B458F','#003399','#FFCD00','#003090','#C8102E','#6CABDD','#DA291C','#241F20', "#FFF200", "#D71920", "#132257", "#FBEE23", "#7A263A", "#FDB913")) +
+  new_scale_color() +
+  geom_point(aes(colour = Team, fill = Team), size = 5, shape = 21,
+             stroke = 1.3) +
+  scale_y_continuous(trans = "reverse", breaks = seq(1,20,1), labels = seq(1,20,1), limits = c(20, 1)) +
+  theme_minimal() +
+  scale_x_date(breaks = seq(min(tidy_weekly_df$date),max(tidy_weekly_df$date), by="1 week"), date_labels = "%d-%b-%y") +
+  theme(panel.grid.minor = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title = element_text(size = 14,
+                                  family = "Source Sans Pro"),
+        axis.text.y = element_text(size = 12,
+                                   family = "Source Sans Pro"),
+        axis.text.x = element_text(angle = 50,
+                                   family = "Source Sans Pro"),
+        panel.grid.major = element_blank(),
+        legend.title =  element_blank(),
+        legend.text = element_text(size=13,
+                                   family = "Source Sans Pro"),
+        plot.title = element_text(size=20,
+                                  family = "Source Sans Pro"),
+        plot.subtitle = element_text(size = 14,
+                                     family = "Source Sans Pro")) +
+  labs(title = paste0("Premier League Positions"), x = 'Week ending', y = 'Position', subtitle = paste0("Position taken on Sundays")) +
+  scale_fill_manual(values = c('#EF0107','#670E36', '#e30613', '#0057B8','#6C1D45','#034694','#1B458F','#003399','#FFCD00','#003090','#C8102E','#6CABDD','#DA291C','#241F20', "#FFF200", "#D71920", "#132257", "#FBEE23", "#7A263A", "#FDB913")) +
+  scale_colour_manual(values = c('#F8F0E3','#95BFE5', '#F8F0E3', '#F8F0E3','#99D6EA','#F8F0E3','#C4122E','#F8F0E3','#1D428A','#003090','#00B2A9','#1C2C5B','#000000','#F8F0E3', "#00A650", "#F8F0E3", "#F8F0E3", "#ED2127", "#1BB1E7", "#231F20"))
+## https://teamcolorcodes.com/soccer/premier-league-color-codes/

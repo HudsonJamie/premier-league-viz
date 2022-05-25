@@ -1,0 +1,13 @@
+name: premier-league-table-2021-22
+title: premier-league-table-2021-22
+username:
+account: jamie-hudson
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4880945
+bundleId: 5175476
+url: https://jamie-hudson.shinyapps.io/premier-league-table-2021-22/
+when: 1635181547.74295
+lastSyncTime: 1635181547.74297
+asMultiple: FALSE
+asStatic: FALSE
